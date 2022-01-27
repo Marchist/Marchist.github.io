@@ -1,34 +1,33 @@
 enchant();
 
 window.onload = function () {
-	const game = new Game(400, 500);  				//画面サイズを400*500にする。（このサイズだとスマホでも快適なのでおススメ）
+	const game = new Game(400, 500);  				
 
 	/////////////////////////////////////////////////
 	//ゲーム開始前に必要な画像・音を読み込む部分
 
-	//リトライボタン
-	const retryImgUrl = "Retry.png";						//game.htmlからの相対パス
-	game.preload([retryImgUrl]);					//データを読み込んでおく
+	const retryImgUrl = "Retry.png";					
+	game.preload([retryImgUrl]);					
 
-	//ツイートボタン
-	const tweetImgUrl = "Tweet.png";						//game.htmlからの相対パス
-	game.preload([tweetImgUrl]);					//データを読み込んでおく		
+	const tweetImgUrl = "Tweet.png";					
+	game.preload([tweetImgUrl]);		
+
+	const SilverstarImgUrl = "Silverstar.png";					
+	game.preload([SilverstarImgUrl]);			
 
 	//読み込み終わり
 	/////////////////////////////////////////////////
 
-	game.onload = function () {					//ロードが終わった後にこの関数が呼び出されるので、この関数内にゲームのプログラムを書こう
+	game.onload = function () {					
 
 		/////////////////////////////////////////////////
-		//グローバル変数 
 
-		let score = 0;									//ポイント
+		let score = 0;								
 		let turn = 1;
 		let multiplier = 1;
 		let multiupchance = 0.1;
 		let status = 0
 
-		//グローバル変数終わり
 		/////////////////////////////////////////////////
 
 		const mainScene = new Scene();					//シーン作成
@@ -36,12 +35,12 @@ window.onload = function () {
 		mainScene.backgroundColor = "White"; 			
 
 		//////////////////////////テキスト
-		const scoreText = new Label(); 					//テキストはLabelクラス
-		scoreText.font = "20px Meiryo";				//フォントはメイリオ 20px 変えたかったらググってくれ
-		scoreText.color = 'rgba(0,0,0,1)';		//色　RGB+透明度　今回は白
+		const scoreText = new Label(); 					
+		scoreText.font = "20px Meiryo";				
+		scoreText.color = 'rgba(0,0,0,1)';		
 		scoreText.width = 400;							
 		scoreText.moveTo(0, 30);						
-		mainScene.addChild(scoreText);					//mainSceneシーンにこの画像を埋め込む
+		mainScene.addChild(scoreText);					
 		scoreText.text = "Score : " + score;			
 
 		const FrameText = new Label(); 					
@@ -51,25 +50,25 @@ window.onload = function () {
 		FrameText.moveTo(0, 50);						
 		mainScene.addChild(FrameText);			
 
-		const multiText = new Label(); 					//テキストはLabelクラス
-		multiText.font = "20px Meiryo";				//フォントはメイリオ 20px 変えたかったらググってくれ
-		multiText.color = 'rgba(0,0,0,1)';		//色　RGB+透明度　今回は白
+		const multiText = new Label(); 					
+		multiText.font = "20px Meiryo";				
+		multiText.color = 'rgba(0,0,0,1)';		
 		multiText.width = 400;							
 		multiText.moveTo(0, 70);						
-		mainScene.addChild(multiText);					//mainSceneシーンにこの画像を埋め込む
+		mainScene.addChild(multiText);					
 		multiText.text = "Multiplier : " + multiplier;
 
-		const multichanceText = new Label(); 					//テキストはLabelクラス
-		multichanceText.font = "20px Meiryo";				//フォントはメイリオ 20px 変えたかったらググってくれ
-		multichanceText.color = 'rgba(0,0,0,1)';		//色　RGB+透明度　今回は白
+		const multichanceText = new Label(); 				
+		multichanceText.font = "20px Meiryo";				
+		multichanceText.color = 'rgba(0,0,0,1)';		
 		multichanceText.width = 400;							
 		multichanceText.moveTo(0, 90);						
-		mainScene.addChild(multichanceText);					//mainSceneシーンにこの画像を埋め込む
+		mainScene.addChild(multichanceText);					
 		multichanceText.text = "Chance : " + multiplier;
 
-		const RNGText = new Label(); 					//テキストはLabelクラス
-		RNGText.font = "20px Meiryo";				//フォントはメイリオ 20px 変えたかったらググってくれ
-		RNGText.color = 'rgba(0,0,0,1)';		//色　RGB+透明度　今回は白
+		const RNGText = new Label(); 					
+		RNGText.font = "20px Meiryo";				
+		RNGText.color = 'rgba(0,0,0,1)';		
 		RNGText.width = 400;							
 		RNGText.moveTo(0, 130);						
 		mainScene.addChild(RNGText);					
@@ -106,23 +105,30 @@ window.onload = function () {
 		};
 
 		////////////////////////////////////////////////////////////////
-		//結果画面
+
 		const endScene = new Scene();
 		endScene.backgroundColor = "White";
 
-		//GAMEOVER
-		const gameOverText = new Label(); 					//テキストはLabelクラス
-		gameOverText.font = "20px Meiryo";				//フォントはメイリオ 20px 変えたかったらググってくれ
-		gameOverText.color = 'rgba(0,0,0,1)';		//色　RGB+透明度　今回は白
-		gameOverText.width = 400;							//横幅指定　今回画面サイズ400pxなので、width:400pxだと折り返して二行目表示してくれる
-		gameOverText.moveTo(0, 30);						//移動位置指定
-		endScene.addChild(gameOverText);						//endSceneシーンにこの画像を埋め込む
+		const gameOverText = new Label(); 					
+		gameOverText.font = "20px Meiryo";				
+		gameOverText.color = 'rgba(0,0,0,1)';		
+		gameOverText.width = 400;						
+		gameOverText.moveTo(0, 30);					
+		endScene.addChild(gameOverText);					
 
-		//リトライボタン
 		const retryBtn = new Sprite(100, 50);				//画像サイズをここに書く。使う予定の画像サイズはプロパティで見ておくこと
 		retryBtn.moveTo(50, 300);						//リトライボタンの位置
 		retryBtn.image = game.assets[retryImgUrl];			//読み込む画像の相対パスを指定。　事前にgame.preloadしてないと呼び出せない
 		endScene.addChild(retryBtn);					//endSceneにこのリトライボタン画像を貼り付ける  
+
+		const Sstar = new Sprite(64, 64);				
+		if (score >= 1000000) {
+			Sstar.moveTo(200,250);	
+		} else {
+			Sstar.moveTo(800,800);	
+		}
+		Sstar.image = game.assets[SilverstarImgUrl];			
+		endScene.addChild(Sstar);				
 
 		retryBtn.ontouchend = function () {				//S_Retryボタンをタッチした（タッチして離した）時にこの中の内容を実行する
 			status = 0;
@@ -144,7 +150,7 @@ window.onload = function () {
 			//ツイートＡＰＩに送信
 			//結果ツイート時にURLを貼るため、このゲームのURLをここに記入してURLがツイート画面に反映されるようにエンコードする
 			const url = encodeURI("");
-			window.open("http://twitter.com/intent/tweet?text=SCORE : " + score + " / "+ turn + " frames survived" + url); //ハッシュタグにahogeタグ付くようにした。
+			window.open("http://twitter.com/intent/tweet?text=SCORE : " + score + " / "+ turn + " frames survived" + url); 
 		};
 
 	};

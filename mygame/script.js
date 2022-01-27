@@ -7,11 +7,11 @@ window.onload = function () {
 	//ゲーム開始前に必要な画像・音を読み込む部分
 
 	//リトライボタン
-	const retryImgUrl = "retry.png";						//game.htmlからの相対パス
+	const retryImgUrl = "Retry.png";						//game.htmlからの相対パス
 	game.preload([retryImgUrl]);					//データを読み込んでおく
 
 	//ツイートボタン
-	const tweetImgUrl = "tweet.png";						//game.htmlからの相対パス
+	const tweetImgUrl = "Tweet.png";						//game.htmlからの相対パス
 	game.preload([tweetImgUrl]);					//データを読み込んでおく		
 
 	//読み込み終わり

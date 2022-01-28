@@ -31,6 +31,7 @@ window.onload = function () {
 		let multiupchance = 0.1;
 		let status = 0
 		let starstext = ""
+		let fstext = ""
 
 		/////////////////////////////////////////////////
 
@@ -94,7 +95,7 @@ window.onload = function () {
 					multiupchance += 0.01;
 				}
 				scoreText.text = "Score : " + score.toLocaleString("ko-KR",0); 				
-				multiText.text = "Multiplier : " + multiplier;
+				multiText.text = "Multiplier : ×" + multiplier;
 				multichanceText.text = "Multi +1 chance : " + Math.round(multiupchance * 100) + "%"
 				RNGText.text = "RNG : " + RNG.toFixed(5);
 				FrameText.text = "Frames : " + turn
@@ -117,8 +118,8 @@ window.onload = function () {
 					NextText.text = "Awesome!"
 					starstext = " ★★★"
 				} else if (score >= 5000000) {
-					Gstar.x = 170
-					Gstar2.x = 250
+					Gstar.x = 182
+					Gstar2.x = 254
 					NextText.text = "NEXT 9,999,999"
 					starstext = " ★★"
 				} else if (score >= 2000000) {
@@ -132,8 +133,8 @@ window.onload = function () {
 					NextText.text = "NEXT 2,000,000"
 					starstext = " ☆☆☆"
 				} else if (score >= 500000) {
-					Sstar.x = 170
-					Sstar2.x = 250
+					Sstar.x = 182
+					Sstar2.x = 254
 					NextText.text = "NEXT 999,999"
 					starstext = " ☆☆"
 				} else if (score >= 100000) {
@@ -208,7 +209,7 @@ window.onload = function () {
 			score = 0;
 			multiupchance = 0.1;
 			multiplier = 1;
-			turn = 0;
+			turn = 1;
 			game.popScene();						//endSceneシーンを外す
 			game.pushScene(mainScene);					//mainSceneシーンを入れる
 		};
@@ -223,7 +224,14 @@ window.onload = function () {
 			//ツイートＡＰＩに送信
 			//結果ツイート時にURLを貼るため、このゲームのURLをここに記入してURLがツイート画面に反映されるようにエンコードする
 			const url = encodeURI("https://marchist.github.io/test/");
-			window.open("http://twitter.com/intent/tweet?text=SCORE : " + score.toLocaleString("ko-KR",0) + starstext + " / "+ (turn-1) + " frames survived / " + url); 
+			if (turn == 1) {
+				fstext = " FRAMES SERVIVED / "
+			}else if (turn == 1) {
+				fstext = " frame servived / "
+			}else {
+				fstext = " frames servived / "
+			}
+			window.open("http://twitter.com/intent/tweet?text=SCORE : " + score.toLocaleString("ko-KR",0) + starstext + " / "+ (turn-1) + fstext + url); 
 		};
 
 	};

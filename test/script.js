@@ -223,7 +223,7 @@ window.onload = function () {
 			//ツイートＡＰＩに送信
 			//結果ツイート時にURLを貼るため、このゲームのURLをここに記入してURLがツイート画面に反映されるようにエンコードする
 			const url = encodeURI("https://marchist.github.io/test/");
-			window.open("http://twitter.com/intent/tweet?text=SCORE : " + score.toLocaleString("ko-KR",0) + starstext + " / "+ (turn-1) + " frames survived" + url); 
+			window.open("http://twitter.com/intent/tweet?text=SCORE : " + score.toLocaleString("ko-KR",0) + starstext + " / "+ (turn-1) + " frames survived / " + url); 
 		};
 
 	};

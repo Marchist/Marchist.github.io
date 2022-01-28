@@ -225,11 +225,11 @@ window.onload = function () {
 			//結果ツイート時にURLを貼るため、このゲームのURLをここに記入してURLがツイート画面に反映されるようにエンコードする
 			const url = encodeURI("https://marchist.github.io/test/");
 			if (turn == 1) {
-				fstext = " FRAMES SERVIVED / "
+				fstext = " FRAMES SURVIVED / "
 			}else if (turn == 1) {
-				fstext = " frame servived / "
+				fstext = " frame survived / "
 			}else {
-				fstext = " frames servived / "
+				fstext = " frames survived / "
 			}
 			window.open("http://twitter.com/intent/tweet?text=SCORE : " + score.toLocaleString("ko-KR",0) + starstext + " / "+ (turn-1) + fstext + url); 
 		};

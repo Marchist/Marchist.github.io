@@ -142,6 +142,7 @@ window.onload = function () {
 					starstext = " ☆"
 				} else {
 					NextText.text = ""
+					starstext = ""
 				}
 		}
 

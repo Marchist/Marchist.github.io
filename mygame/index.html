@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=500px,user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>テストページ</title>
+    <title>Trash game</title>
     <style type="text/css">
         a:link {
             text-decoration: none;
@@ -20,7 +20,7 @@
 
         .center {
             border: 1px solid gray;
-            width: 420px;
+            width: 500px;
             margin-right: auto;
             margin-left: auto;
         }
@@ -29,13 +29,14 @@
 
 <body>
     <div class="center">
-        <iframe src="game.html" width=" 400" height="500" scrolling="no" marginwidth="0" marginheight="0"
+        <iframe src="game.html" width=" 500" height="500" scrolling="no" marginwidth="0" marginheight="0"
             frameborder="0" style="border:none;"></iframe>
-        <h2>遊び方</h2>
-        <p>ここに遊び方を書く。</p>
-        <h2>お借りした素材</h2>
-        <a href="http://～～～～">借りた素材のサイト名と、借りた素材内容を書く</a>
-        <br>
+        <h2>Power of 99</h2>
+        <p>毎フレーム1%の確率で終了するゲームです。0から1までの乱数を生成するRNGというものがあり、RNGが0.99以下だと次のフレームに進み、スコアがFrames*Multiplier(倍率)だけ上昇します。</br>
+        倍率は毎フレーム"Multi +1 chance"の確率で1上がります。</br>
+        外れた場合は確率が1%上がり、倍率が上がった場合は確率が10%にリセットされます。</p>
+        <p>On each frame RNG generates a random number between 0 and 1. If RNG <= 0.99, you are safe and score increases by frames * multiplier. If RNG > 0.99 then game over.</br>
+            Multiplier goes up by 1 when another RNG is lower than "Multi +1 chance". </br>"Multi +1 chance" goes up by 1% when fail to increase multiplier, and reset to 10% when multiplier increases.</p>
     </div>
 </body>
 

@@ -611,7 +611,7 @@ window.onload = function () {
 					bonusText.visible = false
 					bonusText.scaleX = 1
 					bonusText.scaleY = 1
-					bonusText.y = 84
+					bonusText.y = 134
 					gotbonustimer = 120
 				}
 			}

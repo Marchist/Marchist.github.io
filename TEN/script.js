@@ -402,15 +402,7 @@ window.onload = function () {
 		endScene.addChild(retryBtn)
 			
 		retryBtn.ontouchend = function () {
-			score = 0;		
-			noholdbonus = 100;
-			life = 20;
-			boxnum = [0, 0, 0, 0, 0];
-			hold = '';
-			next1 = GetRandomNumber();
-			next2 = GetRandomNumber();
-			next3 = GetRandomNumber();
-			console.log('Initialized!')
+			Initialize()
 			TextCompute()
 			game.popScene()
 			game.pushScene(mainScene)

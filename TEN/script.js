@@ -60,7 +60,6 @@ window.onload = function () {
 			next1 = GetRandomNumber();
 			next2 = GetRandomNumber();
 			next3 = GetRandomNumber();
-			console.log('Initialized!')
 		}
 
 		Initialize()
@@ -338,7 +337,6 @@ window.onload = function () {
 		}
 
 		TextCompute = function(n){
-			console.log('Text Computed!')
 			switch(n){
 				case 1:
 					box1Text.text = boxnum[n-1];

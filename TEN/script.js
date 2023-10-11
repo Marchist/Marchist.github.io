@@ -289,9 +289,14 @@ window.onload = function () {
 			if (boxnum[n-1] == 10){
 				boxnum[n-1] = 0
 				score += Math.floor(SCOREGAIN * noholdbonus / 100)
-			}else if(boxnum[n-1] > 10){
+			}else if (boxnum[n-1] > 10){
 				life -= (boxnum[n-1] - 10)
 				boxnum[n-1] = 0
+				if (life <= 0){
+				gameOverText.text = "SCORE " + score.toLocaleString("ko-KR",0)
+				game.popScene();				
+				game.pushScene(endScene);	
+				}
 			}
 			next1 = next2
 			next2 = next3
@@ -352,25 +357,44 @@ window.onload = function () {
 
 		//////////////////////////////// mainScene
 
-		const endScene = new Scene();
-		endScene.backgroundColor = "White";
+		const endScene = new Scene()
+		endScene.backgroundColor = "White"
 
-		const retryBtn = new Sprite(100, 50);				
-		retryBtn.moveTo(100, 300);						
-		retryBtn.image = game.assets['retryImgUrl'];			
-		endScene.addChild(retryBtn);					
+		const gameOverLabel = new Label()
+		gameOverLabel.font = "50px BebasNeue"
+		gameOverLabel.color = 'rgba(0,0,0,1)'
+		gameOverLabel.width = 500
+		gameOverLabel.moveTo(0, 100)
+		gameOverLabel.text = "GAME OVER!"
+		gameOverLabel.textAlign = 'center'
+		endScene.addChild(gameOverLabel)
+
+		const gameOverText = new Label()
+		gameOverText.font = "40px BebasNeue"
+		gameOverText.color = 'rgba(0,0,0,1)'
+		gameOverText.width = 500		
+		gameOverText.moveTo(0, 200)
+		gameOverText.textAlign = 'center'	
+		endScene.addChild(gameOverText)
+
+		const retryBtn = new Sprite(100, 50)
+		retryBtn.moveTo(100, 300)
+		retryBtn.image = game.assets['retryImgUrl']		
+		endScene.addChild(retryBtn)
 			
-		retryBtn.ontouchend = function () {				
-			game.popScene();						
-			game.pushScene(mainScene);					
-		};
+		retryBtn.ontouchend = function () {
+			game.popScene()
+			game.pushScene(mainScene)
+		}
 
-		const tweetBtn = new Sprite(100, 50);			
-		tweetBtn.moveTo(290, 300);						
-		tweetBtn.image = game.assets['tweetImgUrl'];			
-		endScene.addChild(tweetBtn);					
+		const tweetBtn = new Sprite(100, 50)
+		tweetBtn.moveTo(290, 300)
+		tweetBtn.image = game.assets['tweetImgUrl']
+		endScene.addChild(tweetBtn)
 
-		tweetBtn.ontouchend = function () {	
+		tweetBtn.ontouchend = function () {
+			const url = encodeURI("https://marchist.github.io/TEN/");
+			window.open("http://twitter.com/intent/tweet?text=SCORE : " + score.toLocaleString("ko-KR",0) + ' ' + url); 	
 		};
 
 	};

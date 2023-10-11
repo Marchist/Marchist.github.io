@@ -527,7 +527,13 @@ window.onload = function () {
 			// 	gotbonus = true
 			// 	flag = true
 			// }
-		    }else if(Math.abs(a-b) == 1 && Math.abs(b-c) == 1 && Math.abs(c-d) == 1 && Math.abs(d-e) == 1 && a != 0 && e != 0){
+		    }else if(
+				((a-b == 1 && b-c == 1 && c-d == 1 && d-e == 1)
+				||
+				(e-d == 1 && d-c == 1 && c-b == 1 && b-a == 1))
+				&&
+				(a != 0 && e != 0)
+			){
 				score += Math.floor(2000 * nomissbonus / 100)
 				life += 1
 				boxnum = [0, 0, 0, 0, 0]

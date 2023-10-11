@@ -388,7 +388,7 @@ window.onload = function () {
 		bonusText.font = "40px BebasNeue"
 		bonusText.color = 'rgba(0,0,0,1)'
 		bonusText.width = 500
-		bonusText.moveTo(0, 84)
+		bonusText.moveTo(0, 134)
 		bonusText.textAlign = 'center'
 		bonusText.text = "FIVE OF A KIND"
 		bonusText.visible = false

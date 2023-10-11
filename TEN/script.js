@@ -354,6 +354,11 @@ window.onload = function () {
 					box5Text.text = boxnum[n-1];
 					break
 			}	
+			box1Text.text = boxnum[0]
+			box2Text.text = boxnum[1]
+			box3Text.text = boxnum[2]
+			box4Text.text = boxnum[3]
+			box5Text.text = boxnum[4]
 			next1Text.text = next1
 			next2Text.text = next2
 			next3Text.text = next3

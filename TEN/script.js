@@ -22,15 +22,21 @@ window.onload = function () {
 		GetRandomNumber = function(n){
 			let ret = 0
 			let RNG = Math.random();
-			if (RNG < 0.6){
-				ret = 1 + Math.floor(RNG / 0.12)
-			}else if(RNG < 0.7){
+			let fiveorless = Math.max(0.4 , 0.6 - 0.01 * Math.floor(score / 1000))
+			let sixtonine = (0.94 - fiveorless) / 34
+			let six = fiveorless + sixtonine * 10
+			let seven = six + sixtonine * 9
+			let eight = seven + sixtonine * 8
+			let nine = eight + sixtonine * 7
+			if (RNG < fiveorless){
+				ret = 1 + Math.floor(RNG / (fiveorless/5))
+			}else if(RNG < six){
 				ret = 6
-			}else if(RNG < 0.79){
+			}else if(RNG < seven){
 				ret = 7
-			}else if(RNG < 0.87){
+			}else if(RNG < eight){
 				ret = 8
-			}else if(RNG < 0.94){
+			}else if(RNG < nine){
 				ret = 9
 			}else if(RNG < 0.95){
 				ret = 10
@@ -42,15 +48,21 @@ window.onload = function () {
 
 		//////////////////////////////// mainScene
 
-		let score = 0;		
-		let noholdbonus = 100;
-		let life = 20;
-		let boxnum = [0, 0, 0, 0, 0];
-		let hold = '';
-		let next1 = GetRandomNumber();
-		let next2 = GetRandomNumber();
-		let next3 = GetRandomNumber();
+		let score, noholdbonus, life, boxnum, hold, next1, next2, next3
 		const SCOREGAIN = 100;
+
+		Initialize = function(){
+			score = 0;		
+			noholdbonus = 100;
+			life = 20;
+			boxnum = [0, 0, 0, 0, 0];
+			hold = '';
+			next1 = GetRandomNumber();
+			next2 = GetRandomNumber();
+			next3 = GetRandomNumber();
+		}
+
+		Initialize()
 
 		const mainScene = new Scene();					
 		game.pushScene(mainScene);  					
@@ -383,6 +395,8 @@ window.onload = function () {
 		endScene.addChild(retryBtn)
 			
 		retryBtn.ontouchend = function () {
+			Initialize()
+			TextCompute()
 			game.popScene()
 			game.pushScene(mainScene)
 		}

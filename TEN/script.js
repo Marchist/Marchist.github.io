@@ -12,17 +12,36 @@ window.onload = function () {
 		'box50':'box50.png',
 		'boxsmallred':'boxsmallred.png',
 		'damaged':'Damaged.png',
+		'0':'9.png',
+		'1':'8.png',
+		'2':'7.png',
+		'3':'6.png',
+		'4':'5.png',
+		'5':'4.png',
+		'6':'3.png',
+		'7':'2.png',
+		'8':'1.png',
+		'9':'S1.png',
+		'10':'S2.png',
+		'11':'S3.png',
+		'12':'S4.png',
+		'13':'S5.png',
+		'14':'S6.png',
+		'15':'S7.png',
+		'16':'S8.png',
+		'17':'S9.png',
+		'18':'M.png',
+		'19':'GM.png',
 	};
 	game.preload(ASSETS);
 
 	game.onload = function () {		
 			
+		//#region
 		function shuffle(array) {
 			for (let index = array.length - 1; index > 0; index--) {
-			  // 무작위 index 값을 만든다. (0 이상의 배열 길이 값)
 			  const randomPosition = Math.floor(Math.random() * (index + 1));
 		  
-			  // 임시로 원본 값을 저장하고, randomPosition을 사용해 배열 요소를 섞는다.
 			  const temporary = array[index];
 			  array[index] = array[randomPosition];
 			  array[randomPosition] = temporary;
@@ -32,26 +51,28 @@ window.onload = function () {
 		GetRandomNumber = function(n){
 			let ret = 0
 			let RNG = Math.random();
-			let fiveorless = Math.max(0.4 , 0.6 - 0.01 * Math.floor(score / 1000))
-			let sixtonine = (0.94 - fiveorless) / 34
-			let six = fiveorless + sixtonine * 10
-			let seven = six + sixtonine * 9
-			let eight = seven + sixtonine * 8
-			let nine = eight + sixtonine * 7
+			let fiveorless = Math.max(0, 0.6 - 0.2 * (score/200000))
+			let sixormore = (0.95 - fiveorless)/4
 			if (RNG < fiveorless){
 				ret = 1 + Math.floor(RNG / (fiveorless/5))
-			}else if(RNG < six){
+			}else if(RNG < fiveorless + sixormore * 1){
 				ret = 6
-			}else if(RNG < seven){
+			}else if(RNG < fiveorless + sixormore * 2){
 				ret = 7
-			}else if(RNG < eight){
+			}else if(RNG < fiveorless + sixormore * 3){
 				ret = 8
-			}else if(RNG < nine){
+			}else if(RNG < fiveorless + sixormore * 4){
 				ret = 9
 			}else if(RNG < 0.95){
 				ret = 10
 			}else{
-				ret = -1
+				if (score >= 100000){
+					let maxminus = Math.min(9, Math.ceil((score-100000)/100000)+1)
+					RNG = Math.random()
+					ret = -1 * (Math.floor(RNG*maxminus) + 1)
+				}else{
+					ret = -1
+				}
 			}
 			return ret
 		}
@@ -65,15 +86,20 @@ window.onload = function () {
 			target4 = arr[3]
 			target5 = arr[4]
 		}
+		//#endregion
 
 		let score, nomissbonus, life, boxnum, hold, next1, next2, next3, target1, target2, target3, target4, target5
-		let gotdamage, gotdamagetimer, gotbonus, gotbonustimer
+		let gotdamage, gotdamagetimer, gotbonus, gotbonustimer, gotpromotion, gotpromotiontimer
+		let grade
 		const SCOREGAIN = 100;
 		const TARGETY = 24
+		const GRADENEXT = 	[500, 1500, 3000, 5000, 7500, 10000, 15000, 20000, 
+							25000, 30000, 35000, 42500, 50000, 60000, 70000, 85000, 100000,
+							150000, 200000, "-"]
 
 		Initialize = function(){
 			score = 0;		
-			nomissbonus = 100;
+			nomissbonus = 400;
 			life = 20;
 			boxnum = [0, 0, 0, 0, 0];
 			hold = '';
@@ -85,6 +111,9 @@ window.onload = function () {
 			gotdamagetimer = 15;
 			gotbonus = false;
 			gotbonustimer = 120;
+			gotpromotion = false;
+			gotpromotiontimer = 30;
+			grade = 0
 		}
 
 		Initialize()
@@ -100,8 +129,8 @@ window.onload = function () {
 		const scoreLabel = new Label(); 					
 		scoreLabel.font = "40px BebasNeue";				
 		scoreLabel.color = 'rgba(0,0,0,1)';		
-		scoreLabel.width = 216;							
-		scoreLabel.moveTo(28, 224);						
+		scoreLabel.width = 146;							
+		scoreLabel.moveTo(222, 220);						
 		mainScene.addChild(scoreLabel);					
 		scoreLabel.text = "SCORE";			
 		scoreLabel.textAlign = 'center';
@@ -109,8 +138,8 @@ window.onload = function () {
 		const lifeLabel = new Label(); 					
 		lifeLabel.font = "40px BebasNeue";				
 		lifeLabel.color = 'rgba(243,82,82,1)';		
-		lifeLabel.width = 216;							
-		lifeLabel.moveTo(261, 224);						
+		lifeLabel.width = 146;							
+		lifeLabel.moveTo(330, 220);						
 		mainScene.addChild(lifeLabel);					
 		lifeLabel.text = "LIFE";			
 		lifeLabel.textAlign = 'center';
@@ -141,6 +170,15 @@ window.onload = function () {
 		mainScene.addChild(targetLabel);					
 		targetLabel.text = 'TARGET';		
 		targetLabel.textAlign = 'center';
+
+		const gradeLabel = new Label();
+		gradeLabel.font = "25px BebasNeue";
+		gradeLabel.color = 'rgba(0,0,0,1)';
+		gradeLabel.width = 123;
+		gradeLabel.moveTo(29, 272);
+		mainScene.addChild(gradeLabel);
+		gradeLabel.text = 'GRADE';
+		gradeLabel.textAlign = 'center';
 		
 		const gameOverLabel = new Label()
 		gameOverLabel.font = "50px BebasNeue"
@@ -242,16 +280,16 @@ window.onload = function () {
 		const scoreText = new Label(); 					
 		scoreText.font = "40px BebasNeue";				
 		scoreText.color = 'rgba(0,0,0,1)';			
-		scoreText.width = 216;		
-		scoreText.moveTo(28, 270);			
+		scoreText.width = 146;		
+		scoreText.moveTo(222, 270);			
 		mainScene.addChild(scoreText);						
 		scoreText.textAlign = 'center';
 		
 		const lifeText = new Label(); 					
 		lifeText.font = "40px BebasNeue";				
 		lifeText.color = 'rgba(243,82,82,1)';				
-		lifeText.width = 216;		
-		lifeText.moveTo(261, 270);			
+		lifeText.width = 146;		
+		lifeText.moveTo(330, 270);			
 		mainScene.addChild(lifeText);					
 		lifeText.textAlign = 'center';
 
@@ -393,9 +431,24 @@ window.onload = function () {
 		bonusText.text = "FIVE OF A KIND"
 		bonusText.visible = false
 		mainScene.addChild(bonusText)
+
+		const gradeNextText = new Label()
+		gradeNextText.font = "20px BebasNeue"
+		gradeNextText.color = 'rgba(0,0,0,1)'
+		gradeNextText.width = 139
+		gradeNextText.moveTo(78, 303)
+		gradeNextText.textAlign = 'center'
+		mainScene.addChild(gradeNextText)
 		///////////////////// Texts
 
+
+
 		///////////////////// TOP
+		const gradeSprite = new Sprite(100, 100);				
+		gradeSprite.moveTo(123, 208);				
+		gradeSprite.image = game.assets['0'];			
+		mainScene.addChild(gradeSprite);	
+
 		const damaged = new Sprite(500, 700)
 		damaged.moveTo(0, 0)
 		damaged.image = game.assets['damaged']		
@@ -454,18 +507,25 @@ window.onload = function () {
 		//#endregion
 
 		BoxCompute = function(n){
-			score += Math.max(1, Math.floor(nomissbonus * next1 / 100))
+			if (next1 >= 0){
+				score += Math.max(0, Math.floor(nomissbonus * next1 / 100))
+			}else{
+				score += Math.max(0, Math.floor(nomissbonus * (-1 * next1) / 100))
+			}
 			boxnum[n-1] += next1
 			if (boxnum[n-1] > 10){
 				gotdamage = true
-				damage = Math.min(boxnum[n-1]-10, 10)
+				let damage = Math.min(boxnum[n-1]-10, 10)
+				if (boxnum[n-1] / 2 == next1){
+					damage /= 2
+				}
 				life -= damage
 				boxnum[n-1] = 0
 				// damage 1 = 5% ~ damage 10 = 50%
-				// damage 1 = x0.05 ~ damage 10 = x0.50 (둘 중 작은 쪽)
+				// damage 1 = x0.02 ~ damage 10 = x0.20 (둘 중 큰 쪽)
 				let bonusdamage1 = (damage) * 5
-				let bonusdamage2 = Math.floor((damage)*0.05 * nomissbonus)
-				nomissbonus -= Math.min(bonusdamage1, bonusdamage2)
+				let bonusdamage2 = Math.floor((damage)*0.02 * nomissbonus)
+				nomissbonus -= Math.max(bonusdamage1, bonusdamage2)
 				nomissbonus = Math.max(100, nomissbonus)
 				if (life <= 0){
 				gameOverText.text = "SCORE  " + score.toLocaleString("ko-KR",0)
@@ -488,6 +548,7 @@ window.onload = function () {
 			next1 = next2
 			next2 = next3
 			next3 = GetRandomNumber()
+			GradeCompute()
 		}
 
 		BonusCompute = function(){
@@ -498,10 +559,10 @@ window.onload = function () {
 			let d = boxnum[3]
 			let e = boxnum[4]
 			if(a == target1 && b == target2 && c == target3 && d == target4 && e == target5){
-				score += Math.floor(4000 * nomissbonus / 100)
+				score += Math.floor(2000 * nomissbonus / 100)
 				life += 2
 				boxnum = [0, 0, 0, 0, 0]
-				nomissbonus += 21
+				nomissbonus += 20
 				bonusText.text = 'TARGET COMPLETE'
 				target1 = Math.max(1, GetRandomNumber())
 				target2 = Math.max(1, GetRandomNumber())
@@ -511,22 +572,21 @@ window.onload = function () {
 				gotbonus = true
 				flag = true
 			}else if(a == b && b == c && c == d && d == e && a > 0){
-				score += Math.floor(2000 * nomissbonus / 100)
+				score += Math.floor(1000 * nomissbonus / 100)
 				life += 1
 				boxnum = [0, 0, 0, 0, 0]
-				nomissbonus += 11
+				nomissbonus += 10
 				bonusText.text = 'FIVE OF A KIND'
 				gotbonus = true
 				flag = true
-			// else if(a == b && b == c && c == d && d == e && a < 0){
-			// 	score += Math.floor(10000 * nomissbonus / 100)
-			// 	life += 3
-			// 	boxnum = [0, 0, 0, 0, 0]
-			// 	nomissbonus += 31
-			// 	bonusText.text = 'NEGATIVE FIVE OF A KIND!?'
-			// 	gotbonus = true
-			// 	flag = true
-			// }
+			}else if(a == b && b == c && c == d && d == e && a < 0){
+				score += Math.floor(3000 * nomissbonus / 100)
+				life += 3
+				boxnum = [0, 0, 0, 0, 0]
+				nomissbonus += 30
+				bonusText.text = 'NEGATIVE FIVE OF A KIND!?'
+				gotbonus = true
+				flag = true
 		    }else if(
 				((a-b == 1 && b-c == 1 && c-d == 1 && d-e == 1)
 				||
@@ -534,10 +594,10 @@ window.onload = function () {
 				&&
 				(a != 0 && e != 0)
 			){
-				score += Math.floor(2000 * nomissbonus / 100)
+				score += Math.floor(1000 * nomissbonus / 100)
 				life += 1
 				boxnum = [0, 0, 0, 0, 0]
-				nomissbonus += 11
+				nomissbonus += 10
 				bonusText.text = 'STRAIGHT'
 				gotbonus = true
 				flag = true
@@ -558,6 +618,20 @@ window.onload = function () {
 			}
 		}
 
+		GradeCompute = function(){
+			let flag = false
+			while (true){
+				if (score > GRADENEXT[grade] && grade < 20){
+					grade += 1
+					flag = true
+				}else{
+					break
+				}
+			}
+			if (flag){
+				gotpromotion = true
+			}
+		}
 		game.onenterframe = function (){
 			box1Text.text = boxnum[0]
 			box2Text.text = boxnum[1]
@@ -576,6 +650,11 @@ window.onload = function () {
 			nomissbonusText.text = nomissbonusText.text = '  NO MISS BONUS  ×' + (nomissbonus/100).toFixed(2)
 			lifeText.text = life
 			holdText.text = hold
+			if (grade < 19){
+				gradeNextText.text = 'NEXT  ' + GRADENEXT[grade].toLocaleString("ko-KR",0)
+			}else{
+				gradeNextText.text = 'CONGRATULATIONS!'
+			}
 			
 			if (gotdamage){
 				if (life > 0){
@@ -615,9 +694,21 @@ window.onload = function () {
 					gotbonustimer = 120
 				}
 			}
+			
+			if (gotpromotion){
+				gradeSprite.image = game.assets[`${grade}`]
+				gradeSprite.scaleX = 1 + gotpromotiontimer * 0.033
+				gradeSprite.scaleY = 1 + gotpromotiontimer * 0.033
+				gotpromotiontimer -= 1
+				if (gotpromotiontimer <= 0){
+					gotpromotion = false
+					gotpromotiontimer = 30
+				}
+			}
 		};
 
 		retryBtn.ontouchend = function () {
+			gradeSprite.image = game.assets['0'];			
 			Initialize()
 			game.popScene()
 			game.pushScene(mainScene)

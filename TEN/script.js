@@ -30,8 +30,16 @@ window.onload = function () {
 		'15':'S7.png',
 		'16':'S8.png',
 		'17':'S9.png',
-		'18':'M.png',
-		'19':'GM.png',
+		'18':'m1.png',
+		'19':'m2.png',
+		'20':'m3.png',
+		'21':'m4.png',
+		'22':'m5.png',
+		'23':'m6.png',
+		'24':'m7.png',
+		'25':'m8.png',
+		'26':'m9.png',
+		'27':'GM.png',
 	};
 	game.preload(ASSETS);
 
@@ -95,8 +103,8 @@ window.onload = function () {
 		const TARGETY = 24
 		const GRADENEXT = 	[500, 1500, 3000, 5000, 7500, 10000, 15000, 20000, 
 							25000, 30000, 35000, 42500, 50000, 60000, 70000, 85000, 100000,
-							150000, 200000, "-"]
-		const GRADE = ['9', '8', '7', '6', '5', '4', '3', '2', '1', 'S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'm', 'Gm']
+							110000, 120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000, 200000, "-"]
+		const GRADE = ['9', '8', '7', '6', '5', '4', '3', '2', '1', 'S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'Gm']
 
 		Initialize = function(){
 			score = 0;		
@@ -450,6 +458,11 @@ window.onload = function () {
 		gradeSprite.image = game.assets['0'];			
 		mainScene.addChild(gradeSprite);	
 
+		const gradeSprite2 = new Sprite(100, 100);				
+		gradeSprite2.moveTo(200, 235);				
+		gradeSprite2.image = game.assets['0'];			
+		endScene.addChild(gradeSprite2);	
+
 		const damaged = new Sprite(500, 700)
 		damaged.moveTo(0, 0)
 		damaged.image = game.assets['damaged']		
@@ -529,6 +542,7 @@ window.onload = function () {
 				nomissbonus -= Math.max(bonusdamage1, bonusdamage2)
 				nomissbonus = Math.max(100, nomissbonus)
 				if (life <= 0){
+				gradeSprite2.image = game.assets[`${grade}`]
 				gameOverText.text = "SCORE  " + score.toLocaleString("ko-KR",0)
 				game.popScene();				
 				game.pushScene(endScene);	
@@ -622,7 +636,7 @@ window.onload = function () {
 		GradeCompute = function(){
 			let flag = false
 			while (true){
-				if (score > GRADENEXT[grade] && grade < 20){
+				if (score > GRADENEXT[grade] && grade < 27){
 					grade += 1
 					flag = true
 				}else{
@@ -651,7 +665,7 @@ window.onload = function () {
 			nomissbonusText.text = nomissbonusText.text = '  NO MISS BONUS  ×' + (nomissbonus/100).toFixed(2)
 			lifeText.text = life
 			holdText.text = hold
-			if (grade < 19){
+			if (grade <= 26){
 				gradeNextText.text = 'NEXT  ' + GRADENEXT[grade].toLocaleString("ko-KR",0)
 			}else{
 				gradeNextText.text = 'CONGRATULATIONS!'

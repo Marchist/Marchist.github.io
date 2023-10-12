@@ -96,10 +96,11 @@ window.onload = function () {
 		const GRADENEXT = 	[500, 1500, 3000, 5000, 7500, 10000, 15000, 20000, 
 							25000, 30000, 35000, 42500, 50000, 60000, 70000, 85000, 100000,
 							150000, 200000, "-"]
+		const GRADE = ['9', '8', '7', '6', '5', '4', '3', '2', '1', 'S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'm', 'Gm']
 
 		Initialize = function(){
 			score = 0;		
-			nomissbonus = 400;
+			nomissbonus = 100;
 			life = 20;
 			boxnum = [0, 0, 0, 0, 0];
 			hold = '';
@@ -716,7 +717,7 @@ window.onload = function () {
 
 		tweetBtn.ontouchend = function () {
 			const url = encodeURI("https://marchist.github.io/TEN/");
-			window.open("http://twitter.com/intent/tweet?text=SCORE : " + score.toLocaleString("ko-KR",0) + ' ' + url); 	
+			window.open("http://twitter.com/intent/tweet?text=SCORE : " + score.toLocaleString("ko-KR",0) + ' / GRADE ' + GRADE[grade] + ' ' + url); 	
 		};
 
 	};

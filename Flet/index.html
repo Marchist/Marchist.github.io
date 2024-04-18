@@ -25,26 +25,6 @@
   <title>Flet</title>
   <link rel="manifest" href="manifest.json">
 
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
-  <script type="text/javascript">
-  
-  function sleep(ms) {
-    const wakeUpTime = Date.now() + ms;
-    while (Date.now() < wakeUpTime) {}
-  }
-
-    async function main() {
-      let pyodide = await loadPyodide();
-      await pyodide.loadPackage("micropip");
-      const micropip = pyodide.pyimport("micropip");
-      await micropip.install("pandas");
-      await pyodide.runPython('import pandas as pd')
-      await pyodide.runPython('print("OK")')
-    }
-    main();
-    sleep(30000)
-  </script>
-
   <script>
     var webRenderer = "auto";
     var useColorEmoji = false;
@@ -56,7 +36,7 @@
   
         <script>
             var micropipIncludePre = false;
-            var pythonModuleName = "NEW EASY READER";
+            var pythonModuleName = "NEWEASYREADER";
         </script>
         <script src="python.js"></script>
         
@@ -67,8 +47,6 @@
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
-
- 
 </head>
 
 <body>

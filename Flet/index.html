@@ -36,7 +36,7 @@
       await pyodide.runPython('print("OK")')
     }
     main();
-    sleep(30);
+    setTimeout(() => console.log("after"), 30000);
   </script>
 
   <script>

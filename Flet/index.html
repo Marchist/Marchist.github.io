@@ -47,6 +47,16 @@
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
+
+  <script type="text/javascript">
+    async function main() {
+      let pyodide = await loadPyodide();
+      await pyodide.loadPackage("micropip");
+      const micropip = pyodide.pyimport("micropip");
+      await micropip.install("pandas");
+    }
+    main();
+  </script>
 </head>
 
 <body>

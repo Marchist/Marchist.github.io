@@ -27,6 +27,12 @@
 
   <script type="text/javascript" src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js"></script>
   <script type="text/javascript">
+  
+  function sleep(ms) {
+    const wakeUpTime = Date.now() + ms;
+    while (Date.now() < wakeUpTime) {}
+  }
+
     async function main() {
       let pyodide = await loadPyodide();
       await pyodide.loadPackage("micropip");
@@ -36,7 +42,7 @@
       await pyodide.runPython('print("OK")')
     }
     main();
-    setTimeout(() => console.log("after"), 30000);
+    sleep(30000)
   </script>
 
   <script>

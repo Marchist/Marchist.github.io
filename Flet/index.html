@@ -32,10 +32,11 @@
       await pyodide.loadPackage("micropip");
       const micropip = pyodide.pyimport("micropip");
       await micropip.install("pandas");
+      pyodide.runPython('import pandas as pd')
     }
     main();
   </script>
-  
+
   <script>
     var webRenderer = "auto";
     var useColorEmoji = false;

@@ -32,7 +32,8 @@
       await pyodide.loadPackage("micropip");
       const micropip = pyodide.pyimport("micropip");
       await micropip.install("pandas");
-      pyodide.runPython('import pandas as pd')
+      await pyodide.runPython('import pandas as pd')
+      await pyodide.runPython('print("OK")')
     }
     main();
   </script>
